@@ -5,12 +5,12 @@ from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
 
-__all__ = ["start_span_processor"]
+__all__ = ["setup_collector"]
 
 
-def start_span_processor(service_name: str):
+def setup_collector(service_name: str):
     resource = Resource(attributes={
         "service.name": service_name
     })
@@ -24,4 +24,16 @@ def start_span_processor(service_name: str):
 
     trace.get_tracer_provider().add_span_processor(
         BatchSpanProcessor(otlp_exporter)
+    )
+
+
+def setup_console(service_name: str):
+    resource = Resource(attributes={
+        "service.name": service_name
+    })
+    trace.set_tracer_provider(TracerProvider(resource=resource))
+    console_exporter = ConsoleSpanExporter()
+
+    trace.get_tracer_provider().add_span_processor(
+        BatchSpanProcessor(console_exporter)
     )
