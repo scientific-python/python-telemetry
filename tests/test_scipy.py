@@ -1,4 +1,4 @@
-from api_tracer import install, start_span_processor
+from api_tracer import install, setup_collector
 
 if __name__ == "__main__":
     install(
@@ -6,7 +6,7 @@ if __name__ == "__main__":
             "scipy.stats._distn_infrastructure"
         ]
     )
-    start_span_processor("scipy-service")
+    setup_collector("scipy-service")
 
     from scipy import stats
 
