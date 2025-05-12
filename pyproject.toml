@@ -1,3 +1,31 @@
+[project]
+name = "api_tracer"
+authors = [
+  { name = "guenp", email = "guenp@hey.com" },
+]
+description = "A great package."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Typing :: Typed",
+]
+dynamic = ["version"]
+dependencies = []
+
 [tool.ruff]
 line-length = 120
 target-version = "py311"

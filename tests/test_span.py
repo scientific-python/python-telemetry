@@ -1,6 +1,7 @@
 from time import sleep
 
-from api_tracer import setup_console, span
+from api_tracer.console import setup_console
+from api_tracer.span import span
 
 
 @span
@@ -20,7 +21,7 @@ def baz(apple="orange", delay=1):
 
 
 if __name__ == "__main__":
-    setup_console("test-service")
+    setup_console("test")
     foo(hello="foo", delay=1)
     bar(spam="bar", delay=2)
     baz(apple="baz", delay=3)

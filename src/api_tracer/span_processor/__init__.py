@@ -1,1 +1,0 @@
-from api_tracer.span_processor.collector import setup_collector, setup_console
