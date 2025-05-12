@@ -2,6 +2,16 @@
 
 This library adds basic telemetry to Python projects that traces the usage and run time of Python functions within a given scope.
 
+## Installation
+
+Prerequisites:
+
+```
+pip install opentelemetry-distro
+pip install opentelemetry-exporter-otlp
+opentelemetry-bootstrap --action=install
+```
+
 ## Usage
 
 To track usage of one or more existing Python projects, run:
