@@ -1,14 +1,22 @@
-from api_tracer import install, setup_collector
+from opentelemetry.instrumentation.auto_instrumentation import initialize
 
-if __name__ == "__main__":
-    install(
-        [
-            "scipy.stats._distn_infrastructure"
-        ]
-    )
-    setup_collector("scipy-service")
+from api_tracer import install
+from api_tracer.console import setup_console
 
-    from scipy import stats
+install([
+    "scipy.stats._correlation",
+    "scipy.stats._distn_infrastructure"
+])
+initialize()
+setup_console()
 
-    stats.norm.pdf(x=1, loc=1, scale=0.01)
-    stats.norm(loc=1, scale=0.01).pdf(1)
+from scipy import stats
+
+stats.norm.pdf(x=1, loc=1, scale=0.01)
+stats.norm(loc=1, scale=0.02).pdf(1)
+stats.chatterjeexi([1, 2, 3, 4],[1.1, 2.2, 3.3, 4.4])
+
+# X = stats.Normal()
+# Y = stats.exp((X + 1)*0.01)
+# from scipy import test
+# test()

@@ -1,4 +1,7 @@
+.env
 .venv
 __pycache__
 .coverage
 */*.egg-info
+uv.lock
+.vscode

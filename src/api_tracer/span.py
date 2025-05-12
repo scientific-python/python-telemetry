@@ -32,12 +32,11 @@ def span(func):
         with tracer.start_as_current_span(func_name) as span:
             span.set_attribute("num_args", len(args))
             span.set_attribute("num_kwargs", len(kwargs))
-            print(args)
-            print(kwargs)
             for n, arg in enumerate(args):
                 span.set_attribute(f"args.{n}", _serialize(arg))
             for k, v in kwargs.items():
                 span.set_attribute(f"kwargs.{k}", v)
+            span.set_status(trace.StatusCode.OK)
             return func(*args, **kwargs)
 
     return span_wrapper
