@@ -19,6 +19,4 @@ def setup_console(service_name: str | None = None):
     trace.set_tracer_provider(TracerProvider(resource=resource))
     console_exporter = ConsoleSpanExporter()
 
-    trace.get_tracer_provider().add_span_processor(
-        BatchSpanProcessor(console_exporter)
-    )
+    trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(console_exporter))

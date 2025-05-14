@@ -26,7 +26,7 @@ def span(func):
     # Creates a tracer from the global tracer provider
     tracer = trace.get_tracer(__name__)
     func_name = _get_func_name(func)
-    
+
     @wraps(func)
     def span_wrapper(*args, **kwargs):
         with tracer.start_as_current_span(func_name) as span:
