@@ -17,13 +17,15 @@ opentelemetry-bootstrap --action=install
 To track usage of one or more existing Python projects, run:
 
 ```python
-from api_tracer import install, start_span_processor
+from opentelemetry.instrumentation.auto_instrumentation import initialize
+from api_tracer import install
 
 install(
   [
     my_project.my_module
   ]
 )
+initialize()
 start_span_processor('my-project-service')
 ```
 
