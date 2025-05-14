@@ -9,10 +9,12 @@ def foo(hello="world", delay=1):
     print(hello)
     sleep(delay)
 
+
 @span
 def bar(spam="eggs", delay=1):
     print(spam)
     sleep(delay)
+
 
 @span
 def baz(apple="orange", delay=1):
