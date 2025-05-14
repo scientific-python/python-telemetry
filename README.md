@@ -1,5 +1,31 @@
 # API Tracer
 
+[![Actions Status][actions-badge]][actions-link]
+[![Documentation Status][rtd-badge]][rtd-link]
+
+[![PyPI version][pypi-version]][pypi-link]
+[![Conda-Forge][conda-badge]][conda-link]
+[![PyPI platforms][pypi-platforms]][pypi-link]
+
+[![GitHub Discussion][github-discussions-badge]][github-discussions-link]
+
+<!-- SPHINX-START -->
+
+<!-- prettier-ignore-start -->
+[actions-badge]:            https://github.com/scientific-python/api-tracer/workflows/CI/badge.svg
+[actions-link]:             https://github.com/scientific-python/api-tracer/actions
+[conda-badge]:              https://img.shields.io/conda/vn/conda-forge/api-tracer
+[conda-link]:               https://github.com/conda-forge/api-tracer-feedstock
+[github-discussions-badge]: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
+[github-discussions-link]:  https://github.com/scientific-python/api-tracer/discussions
+[pypi-link]:                https://pypi.org/project/api-tracer/
+[pypi-platforms]:           https://img.shields.io/pypi/pyversions/api-tracer
+[pypi-version]:             https://img.shields.io/pypi/v/api-tracer
+[rtd-badge]:                https://readthedocs.org/projects/api-tracer/badge/?version=latest
+[rtd-link]:                 https://api-tracer.readthedocs.io/en/latest/?badge=latest
+
+<!-- prettier-ignore-end -->
+
 This library adds basic telemetry to Python projects that traces the usage and run time of Python functions within a given scope.
 
 ## Installation
@@ -62,3 +88,5 @@ docker run --name jaeger \
   -p 4318:4318 \
   jaegertracing/all-in-one:1.35
 ```
+
+

@@ -1,11 +1,17 @@
+[build-system]
+requires = ["hatchling>=1.26", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+
 [project]
-name = "api_tracer"
+name = "api-tracer"
 authors = [
-  { name = "guenp", email = "guenp@hey.com" },
+  { name = "Guen Prawiroatmodjo", email = "guenp@hey.com" },
+  { name = "Sebastian Berg", email = "sebastian@sipsolutions.net" },
 ]
-description = "A great package."
+description = "API tracer to gather usage telemetry for Python libraries"
 readme = "README.md"
-license = "MIT"
+license = "BSD-3-Clause"
 requires-python = ">=3.9"
 classifiers = [
   "Development Status :: 1 - Planning",
@@ -26,20 +32,125 @@ classifiers = [
 dynamic = ["version"]
 dependencies = []
 
-[tool.ruff]
-line-length = 120
-target-version = "py311"
-select = ["E", "F", "I", "UP"]
-ignore = ["D203"]
+[project.urls]
+Homepage = "https://github.com/scientific-python/api-tracer"
+"Bug Tracker" = "https://github.com/scientific-python/api-tracer/issues"
+Discussions = "https://github.com/scientific-python/api-tracer/discussions"
+Changelog = "https://github.com/scientific-python/api-tracer/releases"
 
-[tool.black]
-line-length = 120
-target-version = ["py311"]
+
+[dependency-groups]
+test = [
+  "pytest >=6",
+  "pytest-cov >=3",
+]
+dev = [
+  { include-group = "test" },
+]
+docs = [
+  "sphinx>=7.0",
+  "myst_parser>=0.13",
+  "sphinx_copybutton",
+  "sphinx_autodoc_typehints",
+  "furo>=2023.08.17",
+]
+
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/api_tracer/_version.py"
+
+[tool.hatch.envs.default]
+# duplicate for now since hatch doesn't support groups yet
+dependencies = []
+scripts.test = "pytest {args}"
+
 
 [tool.pytest.ini_options]
-addopts = "-ra --cov"
-testpaths = ["tests"]
-pythonpath = ['.']
+minversion = "6.0"
+addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = [
+  "error",
+]
+log_cli_level = "INFO"
+testpaths = [
+  "tests",
+]
 
-[tool.coverage.report]
-show_missing = true
+
+[tool.coverage]
+run.source = ["api_tracer"]
+report.exclude_also = [
+  '\.\.\.',
+  'if typing.TYPE_CHECKING:',
+]
+
+[tool.mypy]
+files = ["src", "tests"]
+python_version = "3.9"
+warn_unused_configs = true
+strict = true
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+warn_unreachable = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+module = "api_tracer.*"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+
+[tool.ruff]
+
+[tool.ruff.lint]
+extend-select = [
+  "ARG",      # flake8-unused-arguments
+  "B",        # flake8-bugbear
+  "C4",       # flake8-comprehensions
+  "EM",       # flake8-errmsg
+  "EXE",      # flake8-executable
+  "G",        # flake8-logging-format
+  "I",        # isort
+  "ICN",      # flake8-import-conventions
+  "NPY",      # NumPy specific rules
+  "PD",       # pandas-vet
+  "PGH",      # pygrep-hooks
+  "PIE",      # flake8-pie
+  "PL",       # pylint
+  "PT",       # flake8-pytest-style
+  "PTH",      # flake8-use-pathlib
+  "RET",      # flake8-return
+  "RUF",      # Ruff-specific
+  "SIM",      # flake8-simplify
+  "T20",      # flake8-print
+  "UP",       # pyupgrade
+  "YTT",      # flake8-2020
+]
+ignore = [
+  "PLR09",    # Too many <...>
+  "PLR2004",  # Magic value used in comparison
+]
+isort.required-imports = ["from __future__ import annotations"]
+# Uncomment if using a _compat.typing backport
+# typing-modules = ["api_tracer._compat.typing"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["T20"]
+"noxfile.py" = ["T20"]
+
+
+[tool.pylint]
+py-version = "3.9"
+ignore-paths = [".*/_version.py"]
+reports.output-format = "colorized"
+similarities.ignore-imports = "yes"
+messages_control.disable = [
+  "design",
+  "fixme",
+  "line-too-long",
+  "missing-module-docstring",
+  "missing-function-docstring",
+  "wrong-import-position",
+]
