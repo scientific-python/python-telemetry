@@ -1,12 +1,12 @@
 [build-system]
-requires = ["hatchling>=1.26", "hatch-vcs"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=77", "setuptools_scm[toml]>=7"]
+build-backend = "setuptools.build_meta"
 
 
 [project]
 name = "api-tracer"
 authors = [
-  { name = "Guen Prawiroatmodjo", email = "guenp@hey.com" },
+  { name = "Scientific Python", email = "guenp@hey.com" },
   { name = "Sebastian Berg", email = "sebastian@sipsolutions.net" },
 ]
 description = "API tracer to gather usage telemetry for Python libraries"
@@ -56,14 +56,14 @@ docs = [
 ]
 
 
-[tool.hatch]
-version.source = "vcs"
-build.hooks.vcs.version-file = "src/api_tracer/_version.py"
+[tool.setuptools_scm]
+write_to = "src/api_tracer/_version.py"
 
-[tool.hatch.envs.default]
-# duplicate for now since hatch doesn't support groups yet
-dependencies = []
-scripts.test = "pytest {args}"
+
+[tool.setuptools]
+ext-modules = [
+  {name = "api_tracer.statswrapper._stats_wrapper", sources=["src/api_tracer/statswrapper/_stats_wrapper.c"]}
+]
 
 
 [tool.pytest.ini_options]
