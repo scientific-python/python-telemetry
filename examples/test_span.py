@@ -1,7 +1,7 @@
 from time import sleep
 
-from api_tracer.console import setup_console
-from api_tracer.span import span
+from telemetric.console import setup_console
+from telemetric.span import span
 
 
 @span

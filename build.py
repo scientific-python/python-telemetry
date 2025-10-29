@@ -9,8 +9,8 @@ class CustomBuildHook(BuildHookInterface):
     def initialize(self, version, build_data):
         build_data['ext_modules'] = [
             Extension(
-                "api_tracer._stats_wrapper",
-                ["src/api_tracer/_stats_wrapper.c"],
+                "telemetric._stats_wrapper",
+                ["src/telemetric/_stats_wrapper.c"],
             ),
         ]
         build_data['cmdclass'] = {"build_ext": build_ext} 

@@ -1,14 +1,14 @@
 """
 Copyright (c) 2025 Scientific Python. All rights reserved.
 
-api-tracer: API tracer to gather usage telemetry for Python libraries
+telemetric: API tracer to gather usage telemetry for Python libraries
 """
 
 from __future__ import annotations
 
-from api_tracer.path_finder import install
-from api_tracer.span import span
-from api_tracer.statswrapper import stats_deco, stats_deco_auto
+from telemetric.path_finder import install
+from telemetric.span import span
+from telemetric.statswrapper import stats_deco, stats_deco_auto
 
 from ._version import version as __version__
 

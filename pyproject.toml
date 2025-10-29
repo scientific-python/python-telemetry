@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "api-tracer"
+name = "telemetric"
 authors = [
-  { name = "Scientific Python", email = "guenp@hey.com" },
+  { name = "Guen Prawiroatmodjo", email = "4041805+guenp@users.noreply.github.com" },
   { name = "Sebastian Berg", email = "sebastian@sipsolutions.net" },
 ]
 description = "API tracer to gather usage telemetry for Python libraries"
@@ -33,10 +33,10 @@ dynamic = ["version"]
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/scientific-python/api-tracer"
-"Bug Tracker" = "https://github.com/scientific-python/api-tracer/issues"
-Discussions = "https://github.com/scientific-python/api-tracer/discussions"
-Changelog = "https://github.com/scientific-python/api-tracer/releases"
+Homepage = "https://github.com/scientific-python/telemetric"
+"Bug Tracker" = "https://github.com/scientific-python/telemetric/issues"
+Discussions = "https://github.com/scientific-python/telemetric/discussions"
+Changelog = "https://github.com/scientific-python/telemetric/releases"
 
 
 [dependency-groups]
@@ -57,12 +57,12 @@ docs = [
 
 
 [tool.setuptools_scm]
-write_to = "src/api_tracer/_version.py"
+write_to = "src/telemetric/_version.py"
 
 
 [tool.setuptools]
 ext-modules = [
-  {name = "api_tracer.statswrapper._stats_wrapper", sources=["src/api_tracer/statswrapper/_stats_wrapper.c"]}
+  {name = "telemetric.statswrapper._stats_wrapper", sources=["src/telemetric/statswrapper/_stats_wrapper.c"]}
 ]
 
 
@@ -80,7 +80,7 @@ testpaths = [
 
 
 [tool.coverage]
-run.source = ["api_tracer"]
+run.source = ["telemetric"]
 report.exclude_also = [
   '\.\.\.',
   'if typing.TYPE_CHECKING:',
@@ -97,7 +97,7 @@ disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
 [[tool.mypy.overrides]]
-module = "api_tracer.*"
+module = "telemetric.*"
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from api_tracer.statswrapper import stats_deco
+from telemetric.statswrapper import stats_deco
 
 
 @stats_deco(None, b=("a", 3), c=None)

@@ -59,7 +59,7 @@ uv run pytest
 Use pytest-cov to generate coverage reports:
 
 ```bash
-uv run pytest --cov=api-tracer
+uv run pytest --cov=telemetric
 ```
 
 # Building docs

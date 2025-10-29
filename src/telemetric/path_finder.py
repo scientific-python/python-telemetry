@@ -6,7 +6,7 @@ from importlib.abc import MetaPathFinder
 from importlib.machinery import SourceFileLoader
 from importlib.util import spec_from_loader
 
-from api_tracer.statswrapper import stats_deco_auto
+from telemetric.statswrapper import stats_deco_auto
 
 __all__ = ["install"]
 

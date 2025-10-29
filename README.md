@@ -1,4 +1,4 @@
-# API Tracer
+# Telemetric
 
 [![Actions Status][actions-badge]][actions-link]
 [![Documentation Status][rtd-badge]][rtd-link]
@@ -12,17 +12,17 @@
 <!-- SPHINX-START -->
 
 <!-- prettier-ignore-start -->
-[actions-badge]:            https://github.com/scientific-python/api-tracer/workflows/CI/badge.svg
-[actions-link]:             https://github.com/scientific-python/api-tracer/actions
-[conda-badge]:              https://img.shields.io/conda/vn/conda-forge/api-tracer
-[conda-link]:               https://github.com/conda-forge/api-tracer-feedstock
+[actions-badge]:            https://github.com/scientific-python/telemetric/workflows/CI/badge.svg
+[actions-link]:             https://github.com/scientific-python/telemetric/actions
+[conda-badge]:              https://img.shields.io/conda/vn/conda-forge/telemetric
+[conda-link]:               https://github.com/conda-forge/telemetric-feedstock
 [github-discussions-badge]: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
-[github-discussions-link]:  https://github.com/scientific-python/api-tracer/discussions
-[pypi-link]:                https://pypi.org/project/api-tracer/
-[pypi-platforms]:           https://img.shields.io/pypi/pyversions/api-tracer
-[pypi-version]:             https://img.shields.io/pypi/v/api-tracer
-[rtd-badge]:                https://readthedocs.org/projects/api-tracer/badge/?version=latest
-[rtd-link]:                 https://api-tracer.readthedocs.io/en/latest/?badge=latest
+[github-discussions-link]:  https://github.com/scientific-python/telemetric/discussions
+[pypi-link]:                https://pypi.org/project/telemetric/
+[pypi-platforms]:           https://img.shields.io/pypi/pyversions/telemetric
+[pypi-version]:             https://img.shields.io/pypi/v/telemetric
+[rtd-badge]:                https://readthedocs.org/projects/telemetric/badge/?version=latest
+[rtd-link]:                 https://telemetric.readthedocs.io/en/latest/?badge=latest
 
 <!-- prettier-ignore-end -->
 
@@ -44,7 +44,7 @@ To track usage of one or more existing Python projects, run:
 
 ```python
 from opentelemetry.instrumentation.auto_instrumentation import initialize
-from api_tracer import install
+from telemetric import install
 
 install(
   [
@@ -58,7 +58,7 @@ start_span_processor('my-project-service')
 To explicitly add instrumentation to functions you want to trace, use the `span` decorator:
 
 ```python
-from api_tracer import span, start_span_processor
+from telemetric import span, start_span_processor
 
 
 @span

@@ -1,4 +1,4 @@
-# api-tracer
+# telemetric
 
 ```{toctree}
 :maxdepth: 2
