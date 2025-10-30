@@ -1,11 +1,10 @@
 # from opentelemetry.instrumentation.auto_instrumentation import initialize
-from telemetric import install
+from __future__ import annotations
 
-# from telemetric.console import setup_console
+from telemetric import install
+from telemetric.statswrapper import print_all_stats
 
 install(["scipy.stats._correlation", "scipy.stats._distn_infrastructure"])
-# initialize()
-# setup_console()
 
 from scipy import stats  # noqa: E402
 
@@ -19,9 +18,14 @@ stats.chatterjeexi([1, 2, 3, 4], [1.1, 2.2, 3.3, 4.4])
 # test()
 
 # How many calls (errors, and how often something was odd with the args)
-print("counts: ", stats.norm.pdf._get_counts())
+print("counts: ", stats.norm.pdf._get_counts())  # noqa: T201
 
-# Detailed statics for each parameter.  How often was it passed
+# Detailed statistics for each parameter.  How often was it passed
 # and how often were "a" and 3 passed (or something equal to them,
 # I do not consider types right now, although one could)?
-print("param stats: ", stats.norm.pdf._get_param_stats())
+print("param stats: ", stats.norm.pdf._get_param_stats())  # noqa: T201
+
+# Timing statistics for the function
+print("timing: ", stats.norm.pdf._get_timing())  # noqa: T201
+
+print_all_stats(timing_digits=3)

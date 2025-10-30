@@ -20,10 +20,16 @@ typedef struct {
     Py_ssize_t total_calls;
     Py_ssize_t invalid_args;
     Py_ssize_t error_results;
+    double total_time;
+    double min_time;
+    double max_time;
     Py_ssize_t npos;
     Py_ssize_t npos_only;
     arginfo args[];  // NULL terminated arguments (one more with no kwname).
 } StatsWrapperObject;
+
+
+static PyObject *perf_counter_func = NULL;
 
 
 static inline int
@@ -130,7 +136,49 @@ statswrapper_vectorcall(StatsWrapperObject *self,
 
     self->total_calls++;
     self->invalid_args = self->invalid_args + invalid_args;
+
+    /* Get start time */
+    PyObject *start_time_obj = PyObject_CallNoArgs(perf_counter_func);
+    if (start_time_obj == NULL) {
+        return NULL;
+    }
+    double start_time = PyFloat_AsDouble(start_time_obj);
+    Py_DECREF(start_time_obj);
+    if (start_time == -1.0 && PyErr_Occurred()) {
+        return NULL;
+    }
+
+    /* Call the wrapped function */
     PyObject *res = PyObject_Vectorcall(self->wrapped, args, len_args, kwnames);
+
+    /* Get end time */
+    PyObject *end_time_obj = PyObject_CallNoArgs(perf_counter_func);
+    if (end_time_obj == NULL) {
+        Py_XDECREF(res);
+        return NULL;
+    }
+    double end_time = PyFloat_AsDouble(end_time_obj);
+    Py_DECREF(end_time_obj);
+    if (end_time == -1.0 && PyErr_Occurred()) {
+        Py_XDECREF(res);
+        return NULL;
+    }
+
+    /* Update timing stats */
+    double elapsed = end_time - start_time;
+    self->total_time += elapsed;
+    if (self->total_calls == 1) {
+        self->min_time = elapsed;
+        self->max_time = elapsed;
+    } else {
+        if (elapsed < self->min_time) {
+            self->min_time = elapsed;
+        }
+        if (elapsed > self->max_time) {
+            self->max_time = elapsed;
+        }
+    }
+
     if (res == NULL) {
         self->error_results++;
     }
@@ -142,6 +190,21 @@ static PyObject *
 statswrapper__get_counts(StatsWrapperObject *self, PyObject *unused)
 {
     return Py_BuildValue("nnn", self->total_calls, self->error_results, self->invalid_args);
+}
+
+
+static PyObject *
+statswrapper__get_timing(StatsWrapperObject *self, PyObject *unused)
+{
+    double avg_time = 0.0;
+    if (self->total_calls > 0) {
+        avg_time = self->total_time / self->total_calls;
+    }
+    return Py_BuildValue("{s:d,s:d,s:d,s:d}",
+        "total", self->total_time,
+        "average", avg_time,
+        "min", self->min_time,
+        "max", self->max_time);
 }
 
 
@@ -241,6 +304,9 @@ static PyMethodDef statswrapper_methods[] = {
     {"_get_counts",
         (PyCFunction)statswrapper__get_counts,
         METH_NOARGS, NULL},
+    {"_get_timing",
+        (PyCFunction)statswrapper__get_timing,
+        METH_NOARGS, NULL},
     {"_get_param_stats",
         (PyCFunction)statswrapper__get_param_stats,
         METH_NOARGS, NULL},
@@ -303,6 +369,9 @@ stats_wrapper_create(PyObject *mod,
     statswrapper->total_calls = 0;
     statswrapper->error_results = 0;
     statswrapper->invalid_args = 0;
+    statswrapper->total_time = 0.0;
+    statswrapper->min_time = 0.0;
+    statswrapper->max_time = 0.0;
     // Ensure we can dealloc and also NULL terminate.
     memset(statswrapper->args, 0, sizeof(arginfo) * (total_args + 1));
 
@@ -369,8 +438,19 @@ PyMODINIT_FUNC PyInit__stats_wrapper(void)
         goto error;
     }
 
+    /* Get reference to time.perf_counter for timing measurements */
+    PyObject *time_module = PyImport_ImportModule("time");
+    if (time_module == NULL) {
+        goto error;
+    }
+    perf_counter_func = PyObject_GetAttrString(time_module, "perf_counter");
+    Py_DECREF(time_module);
+    if (perf_counter_func == NULL) {
+        goto error;
+    }
+
     return m;
   error:
-    Py_DECREF(m);
+    Py_XDECREF(m);
     return NULL;
 }

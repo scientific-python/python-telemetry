@@ -1,17 +1,25 @@
+from __future__ import annotations
+
 import os
 
-from opentelemetry import trace
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
+from opentelemetry import trace  # type: ignore[import-not-found]
+from opentelemetry.sdk.resources import Resource  # type: ignore[import-not-found]
+from opentelemetry.sdk.trace import TracerProvider  # type: ignore[import-not-found]
+from opentelemetry.sdk.trace.export import (  # type: ignore[import-not-found]
+    BatchSpanProcessor,
+    ConsoleSpanExporter,
+)
 
 __all__ = ["setup_console"]
 
 
-def setup_console(service_name: str | None = None):
+def setup_console(service_name: str | None = None) -> None:
     if service_name is None:
-        attributes = os.environ.get("OTEL_RESOURCE_ATTRIBUTES")
-        attributes = dict(k.split("=") for k in attributes.split(","))
+        attributes_str = os.environ.get("OTEL_RESOURCE_ATTRIBUTES")
+        if attributes_str:
+            attributes = dict(k.split("=") for k in attributes_str.split(","))
+        else:
+            attributes = {}
     else:
         attributes = {"service.name": service_name}
 

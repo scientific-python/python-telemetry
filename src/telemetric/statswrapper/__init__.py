@@ -1,26 +1,41 @@
 # Copyright (c) 2025 Scientific Python. All rights reserved.
+# pylint: disable=import-error,no-name-in-module
+from __future__ import annotations
 
 import functools
 import inspect
 import sys
 
-from ._stats_wrapper import _StatsWrapper, stats_wrapper
+from ._stats_wrapper import (  # type: ignore[import-not-found]
+    _StatsWrapper,
+    stats_wrapper,
+)
 
 # Keep a list of all wrapped functions (could be per package or so...)
-_wrapped = []
+_wrapped: list[_StatsWrapper] = []
 
 
-def print_all_stats(skip_uncalled=True):
-    print()
-    print("Statistics for argument usage of wrapped functions")
-    print("--------------------------------------------------")
-    sorted_w = sorted(_wrapped, key=lambda x: x._get_counts()[0], reverse=True)
+def print_all_stats(skip_uncalled: bool = True, timing_digits: int | None = 6) -> None:  # noqa: ARG001  # pylint: disable=unused-argument
+    """Print statistics for all wrapped functions.
+
+    Parameters
+    ----------
+    skip_uncalled : bool, optional
+        If True, skip functions that haven't been called (default: True).
+    timing_digits : int or None, optional
+        Number of decimal digits to display in scientific notation for timing
+        values. If None, uses default scientific notation precision (default: 6).
+    """
+    print()  # noqa: T201
+    print("Statistics for argument usage of wrapped functions")  # noqa: T201
+    print("--------------------------------------------------")  # noqa: T201
+    sorted_w = sorted(_wrapped, key=lambda x: x._get_counts()[0], reverse=True)  # pylint: disable=protected-access
     for func in sorted_w:
-        counts = func._get_counts()
+        counts = func._get_counts()  # pylint: disable=protected-access
         if counts[0] == 0:
             continue
         counts = f"{counts[0]},{counts[1]},{counts[2]}"
-        stats = func._get_param_stats()
+        stats = func._get_param_stats()  # pylint: disable=protected-access
         argcounts = []
         for name, n_uses, _, _ in stats:
             if name is None:
@@ -28,11 +43,20 @@ def print_all_stats(skip_uncalled=True):
             else:
                 argcounts.append(f"{name}={n_uses}")
 
-        argcounts = ", ".join(argcounts)
-        print(f"{func.__module__}.{func.__name__}[{counts}]({argcounts})")
+        argcounts_str = ", ".join(argcounts)
+        timing = func._get_timing()  # pylint: disable=protected-access
+        if timing_digits is not None:
+            timing_formatted = {k: f"{v:.{timing_digits}e}" for k, v in timing.items()}
+        else:
+            timing_formatted = {k: f"{v:e}" for k, v in timing.items()}
+        timing_str = f" timing={timing_formatted}"
+        summary_str = (
+            f"{func.__module__}.{func.__name__}[{counts}]({argcounts_str}){timing_str}"
+        )
+        print(summary_str)  # noqa: T201
 
 
-def stats_deco(*args, **kwargs):
+def stats_deco(*args, **kwargs):  # type: ignore[no-untyped-def]
     """
     Decorate for statistic gathering.  There should be auto mode!
 
@@ -80,8 +104,20 @@ def stats_deco(*args, **kwargs):
         * The number of times this argument was passed.
         * The parameters we are keeping track of explicitly (or None)
         * The number of times the corresponding parameter was used (or None)
+
+    _get_timing : dict
+        Returns timing statistics as a dictionary with the following keys:
+        * 'total': Total time spent in all calls (seconds)
+        * 'average': Average time per call (seconds)
+        * 'min': Minimum time for a single call (seconds)
+        * 'max': Maximum time for a single call (seconds)
+
+        Timing uses `time.perf_counter()` with nanosecond resolution on most
+        platforms. Times are stored as 64-bit floats (C double) providing
+        approximately 15-17 significant digits of precision.
     """
-    def deco(func):
+
+    def deco(func):  # type: ignore[no-untyped-def]
         new_func = stats_wrapper(func, *args, **kwargs)
         functools.update_wrapper(new_func, func)
         _wrapped.append(new_func)
@@ -92,7 +128,7 @@ def stats_deco(*args, **kwargs):
     return deco
 
 
-def stats_deco_auto(func, /, *, track_positional_use=False):
+def stats_deco_auto(func, /, *, track_positional_use: bool = False):  # type: ignore[no-untyped-def]
     """Similar to `stats_deco`, but attempts to use inspect to add
     any arguments and keyword arguments automatically.
 
@@ -114,8 +150,8 @@ def stats_deco_auto(func, /, *, track_positional_use=False):
     except ValueError:
         return func
 
-    args = []
-    kwargs = {}
+    args: list[tuple[str, ...] | None] = []
+    kwargs: dict[str, tuple[str, ...] | None] = {}
     positional_kws = 0
     for param in s.parameters.values():
         # Tracked the default parameter initially, but that doesn't really
@@ -141,7 +177,7 @@ def stats_deco_auto(func, /, *, track_positional_use=False):
             pass
 
     new = stats_wrapper(func, *args, **kwargs)
-    new._set_npos(len(args) + positional_kws)
+    new._set_npos(len(args) + positional_kws)  # pylint: disable=protected-access
 
     functools.update_wrapper(new, func)
     if hasattr(func, "__code__"):
@@ -151,7 +187,9 @@ def stats_deco_auto(func, /, *, track_positional_use=False):
     return new
 
 
-def install_in_module_by_name(name, /, *, track_positional_use=False):
+def install_in_module_by_name(
+    name: str, /, *, track_positional_use: bool = False
+) -> None:
     """
     Quick way to wrap module functions via
     `install_in_module_by_name(__name__)`.
