@@ -1,4 +1,6 @@
 # from opentelemetry.instrumentation.auto_instrumentation import initialize
+from __future__ import annotations
+
 from telemetric import install
 
 # from telemetric.console import setup_console
@@ -21,7 +23,7 @@ stats.chatterjeexi([1, 2, 3, 4], [1.1, 2.2, 3.3, 4.4])
 # How many calls (errors, and how often something was odd with the args)
 print("counts: ", stats.norm.pdf._get_counts())
 
-# Detailed statics for each parameter.  How often was it passed
+# Detailed statistics for each parameter.  How often was it passed
 # and how often were "a" and 3 passed (or something equal to them,
 # I do not consider types right now, although one could)?
 print("param stats: ", stats.norm.pdf._get_param_stats())

@@ -31,7 +31,9 @@ class TelemetryMetaFinder(MetaPathFinder):
                         if isinstance(spec.loader, SourceFileLoader):
                             return spec_from_loader(
                                 name=spec.name,
-                                loader=TelemetrySpanSourceFileLoader(spec.name, spec.origin),
+                                loader=TelemetrySpanSourceFileLoader(
+                                    spec.name, spec.origin
+                                ),
                                 origin=spec.origin,
                             )
                         return spec
@@ -53,9 +55,11 @@ class TelemetrySpanSourceFileLoader(SourceFileLoader):
 
         # Add telemetry to methods
         for _, _class in classes:
-            for name, method in inspect.getmembers(_class, predicate=inspect.isfunction):
+            for name, method in inspect.getmembers(
+                _class, predicate=inspect.isfunction
+            ):
                 if inspect.getmodule(_class) == module and not name.startswith("_"):
-                        setattr(_class, name, stats_deco_auto(method))
+                    setattr(_class, name, stats_deco_auto(method))
 
 
 def install(module_names: list[str]):

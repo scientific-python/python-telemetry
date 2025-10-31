@@ -26,7 +26,8 @@
 
 <!-- prettier-ignore-end -->
 
-This library adds basic telemetry to Python projects that traces the usage and run time of Python functions within a given scope.
+This library adds basic telemetry to Python projects that traces the usage and
+run time of Python functions within a given scope.
 
 ## Installation
 
@@ -46,16 +47,13 @@ To track usage of one or more existing Python projects, run:
 from opentelemetry.instrumentation.auto_instrumentation import initialize
 from telemetric import install
 
-install(
-  [
-    my_project.my_module
-  ]
-)
+install([my_project.my_module])
 initialize()
-start_span_processor('my-project-service')
+start_span_processor("my-project-service")
 ```
 
-To explicitly add instrumentation to functions you want to trace, use the `span` decorator:
+To explicitly add instrumentation to functions you want to trace, use the `span`
+decorator:
 
 ```python
 from telemetric import span, start_span_processor
@@ -65,6 +63,7 @@ from telemetric import span, start_span_processor
 def foo(bar):
     print(bar)
 
+
 if __name__ == "__main__":
     start_span_processor("test-service")
     foo(bar="baz")
@@ -72,7 +71,8 @@ if __name__ == "__main__":
 
 ## Start collector
 
-To start a collector that prints each log message to stdout, run `cd tests/collector` and run
+To start a collector that prints each log message to stdout, run
+`cd tests/collector` and run
 
 ```bash
 docker run -p 4317:4317 -p 4318:4318 --rm -v $(pwd)/collector-config.yaml:/etc/otelcol/config.yaml otel/opentelemetry-collector
@@ -88,5 +88,3 @@ docker run --name jaeger \
   -p 4318:4318 \
   jaegertracing/all-in-one:1.35
 ```
-
-

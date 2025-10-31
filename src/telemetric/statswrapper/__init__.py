@@ -1,4 +1,5 @@
 # Copyright (c) 2025 Scientific Python. All rights reserved.
+from __future__ import annotations
 
 import functools
 import inspect
@@ -81,6 +82,7 @@ def stats_deco(*args, **kwargs):
         * The parameters we are keeping track of explicitly (or None)
         * The number of times the corresponding parameter was used (or None)
     """
+
     def deco(func):
         new_func = stats_wrapper(func, *args, **kwargs)
         functools.update_wrapper(new_func, func)

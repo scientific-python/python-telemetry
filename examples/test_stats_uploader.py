@@ -1,9 +1,11 @@
 """Test script for the stats uploader module"""
 
+from __future__ import annotations
+
 import logging
 
-from telemetric.statswrapper import stats_deco
 from telemetric.ga4.stats_uploader import StatsUploader
+from telemetric.statswrapper import stats_deco
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -45,7 +47,9 @@ print()
 print("=== Testing Stats Uploader ===")
 
 # Use a dummy proxy URL for testing (won't actually send data unless configured)
-uploader = StatsUploader(proxy_url="https://analytics-proxy-production-665e.up.railway.app")
+uploader = StatsUploader(
+    proxy_url="https://analytics-proxy-production-665e.up.railway.app"
+)
 
 print("Analytics client enabled:", uploader.analytics.enabled)
 
@@ -65,9 +69,7 @@ print("Upload summary:", summary)
 
 # Test custom stats upload
 print("\nUploading custom stats...")
-custom_result = uploader.upload_custom_stats("custom_metric", {
-    "metric_name": "test_metric", 
-    "value": 42,
-    "category": "testing"
-})
+custom_result = uploader.upload_custom_stats(
+    "custom_metric", {"metric_name": "test_metric", "value": 42, "category": "testing"}
+)
 print("Custom upload result:", custom_result)

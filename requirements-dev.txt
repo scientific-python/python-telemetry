@@ -1,7 +1,7 @@
 -r requirements.txt
-pre-commit
-ruff
 black
-pytest
 coverage
+pre-commit
+pytest
 pytest-cov
+ruff

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from opentelemetry.instrumentation.auto_instrumentation import initialize
 
 from telemetric import install

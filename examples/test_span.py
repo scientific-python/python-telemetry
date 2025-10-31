@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from time import sleep
 
 from telemetric.console import setup_console
