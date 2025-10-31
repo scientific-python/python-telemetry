@@ -3,6 +3,10 @@ import requests
 import uuid
 import os
 import platform
+import logging
+
+_log = logging.getLogger()
+
 
 class AnalyticsClient:
     """
@@ -44,6 +48,10 @@ class AnalyticsClient:
             'event_name': event_name,
             'params': params
         }
+
+        url = f"{self.proxy_url}/track"
+        _log.debug(f"POST request to: {url}")
+        _log.debug(payload)
         
         try:
             requests.post(
