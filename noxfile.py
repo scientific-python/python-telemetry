@@ -32,6 +32,7 @@ def pylint(session: nox.Session) -> None:
     # This needs to be installed into the package environment, and is slower
     # than a pre-commit check
     session.install("-e.", "pylint>=3.2")
+    session.install("-r", "requirements-proxy.txt")
     session.run("pylint", "telemetric", *session.posargs)
 
 
