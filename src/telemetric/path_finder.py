@@ -13,6 +13,7 @@ __all__ = ["install"]
 
 class TelemetryMetaFinder(MetaPathFinder):
     """MetaPathFinder implementation that overrides spec loaders with telemetry-enabled loaders."""
+
     def __init__(self, module_names: list[str], *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
         """MetaPathFinder implementation that overrides a spec loader
         of type SourceFileLoader with a TelemetrySpanLoader.
@@ -44,6 +45,7 @@ class TelemetryMetaFinder(MetaPathFinder):
 
 class TelemetrySpanSourceFileLoader(SourceFileLoader):
     """SourceFileLoader that automatically adds telemetry decorators to functions and methods."""
+
     def exec_module(self, module) -> None:  # type: ignore[no-untyped-def]
         super().exec_module(module)
         functions = inspect.getmembers(module, predicate=inspect.isfunction)
