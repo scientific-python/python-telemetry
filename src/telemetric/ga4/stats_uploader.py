@@ -43,7 +43,7 @@ class StatsUploader:
             return False
 
         # Get function counts: (total_calls, error_calls, invalid_args)
-        counts = wrapped_func._get_counts()
+        counts = wrapped_func._get_counts()  # pylint: disable=protected-access
         total_calls, error_calls, invalid_args = counts
 
         # Skip functions that haven't been called
@@ -51,7 +51,7 @@ class StatsUploader:
             return True
 
         # Get parameter statistics
-        param_stats = wrapped_func._get_param_stats()
+        param_stats = wrapped_func._get_param_stats()  # pylint: disable=protected-access
 
         # Build event parameters
         event_params = {
@@ -122,7 +122,7 @@ class StatsUploader:
         skipped = 0
 
         for wrapped_func in _wrapped:
-            counts = wrapped_func._get_counts()
+            counts = wrapped_func._get_counts()  # pylint: disable=protected-access
             total_calls = counts[0]
 
             if skip_uncalled and total_calls == 0:
@@ -135,9 +135,9 @@ class StatsUploader:
         # Upload summary statistics
         summary_params = {
             "total_wrapped_functions": len(_wrapped),
-            "functions_called": sum(1 for f in _wrapped if f._get_counts()[0] > 0),
-            "total_function_calls": sum(f._get_counts()[0] for f in _wrapped),
-            "total_errors": sum(f._get_counts()[1] for f in _wrapped),
+            "functions_called": sum(1 for f in _wrapped if f._get_counts()[0] > 0),  # pylint: disable=protected-access
+            "total_function_calls": sum(f._get_counts()[0] for f in _wrapped),  # pylint: disable=protected-access
+            "total_errors": sum(f._get_counts()[1] for f in _wrapped),  # pylint: disable=protected-access
         }
 
         if package_name:

@@ -1,4 +1,5 @@
 # Copyright (c) 2025 Scientific Python. All rights reserved.
+# pylint: disable=import-error,no-name-in-module
 from __future__ import annotations
 
 import functools
@@ -14,17 +15,17 @@ from ._stats_wrapper import (  # type: ignore[import-not-found]
 _wrapped: list[_StatsWrapper] = []
 
 
-def print_all_stats(skip_uncalled: bool = True) -> None:  # noqa: ARG001
+def print_all_stats(skip_uncalled: bool = True) -> None:  # noqa: ARG001  # pylint: disable=unused-argument
     print()  # noqa: T201
     print("Statistics for argument usage of wrapped functions")  # noqa: T201
     print("--------------------------------------------------")  # noqa: T201
-    sorted_w = sorted(_wrapped, key=lambda x: x._get_counts()[0], reverse=True)
+    sorted_w = sorted(_wrapped, key=lambda x: x._get_counts()[0], reverse=True)  # pylint: disable=protected-access
     for func in sorted_w:
-        counts = func._get_counts()
+        counts = func._get_counts()  # pylint: disable=protected-access
         if counts[0] == 0:
             continue
         counts = f"{counts[0]},{counts[1]},{counts[2]}"
-        stats = func._get_param_stats()
+        stats = func._get_param_stats()  # pylint: disable=protected-access
         argcounts = []
         for name, n_uses, _, _ in stats:
             if name is None:
@@ -146,7 +147,7 @@ def stats_deco_auto(func, /, *, track_positional_use: bool = False):  # type: ig
             pass
 
     new = stats_wrapper(func, *args, **kwargs)
-    new._set_npos(len(args) + positional_kws)
+    new._set_npos(len(args) + positional_kws)  # pylint: disable=protected-access
 
     functools.update_wrapper(new, func)
     if hasattr(func, "__code__"):

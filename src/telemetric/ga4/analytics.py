@@ -58,10 +58,10 @@ class AnalyticsClient:
         }
 
         url = f"{self.proxy_url}/track"
-        _log.debug(f"POST request to: {url}")
+        _log.debug("POST request to: %s", url)
         _log.debug(payload)
 
         try:  # noqa: SIM105
             requests.post(f"{self.proxy_url}/track", json=payload, timeout=2)
-        except Exception:
+        except (requests.RequestException, OSError):
             pass

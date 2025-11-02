@@ -30,14 +30,14 @@ def span(func):  # type: ignore[no-untyped-def]
 
     @wraps(func)
     def span_wrapper(*args, **kwargs):  # type: ignore[no-untyped-def]
-        with tracer.start_as_current_span(func_name) as span:
-            span.set_attribute("num_args", len(args))
-            span.set_attribute("num_kwargs", len(kwargs))
+        with tracer.start_as_current_span(func_name) as current_span:
+            current_span.set_attribute("num_args", len(args))
+            current_span.set_attribute("num_kwargs", len(kwargs))
             for n, arg in enumerate(args):
-                span.set_attribute(f"args.{n}", _serialize(arg))  # type: ignore[no-untyped-call]
+                current_span.set_attribute(f"args.{n}", _serialize(arg))  # type: ignore[no-untyped-call]
             for k, v in kwargs.items():
-                span.set_attribute(f"kwargs.{k}", v)
-            span.set_status(trace.StatusCode.OK)
+                current_span.set_attribute(f"kwargs.{k}", v)
+            current_span.set_status(trace.StatusCode.OK)
             return func(*args, **kwargs)
 
     return span_wrapper

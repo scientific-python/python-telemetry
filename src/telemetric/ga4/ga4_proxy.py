@@ -99,7 +99,7 @@ async def track_event(request: Request):  # type: ignore[no-untyped-def]
             {"status": "error", "message": "GA4 request failed"}, status_code=502
         )
 
-    except Exception as e:
+    except (requests.RequestException, ValueError, KeyError) as e:
         return JSONResponse({"status": "error", "message": str(e)}, status_code=500)
 
 
