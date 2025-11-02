@@ -5,16 +5,19 @@ import functools
 import inspect
 import sys
 
-from ._stats_wrapper import _StatsWrapper, stats_wrapper
+from ._stats_wrapper import (  # type: ignore[import-not-found]
+    _StatsWrapper,
+    stats_wrapper,
+)
 
 # Keep a list of all wrapped functions (could be per package or so...)
-_wrapped = []
+_wrapped: list[_StatsWrapper] = []
 
 
-def print_all_stats(skip_uncalled=True):
-    print()
-    print("Statistics for argument usage of wrapped functions")
-    print("--------------------------------------------------")
+def print_all_stats(skip_uncalled: bool = True) -> None:  # noqa: ARG001
+    print()  # noqa: T201
+    print("Statistics for argument usage of wrapped functions")  # noqa: T201
+    print("--------------------------------------------------")  # noqa: T201
     sorted_w = sorted(_wrapped, key=lambda x: x._get_counts()[0], reverse=True)
     for func in sorted_w:
         counts = func._get_counts()
@@ -29,11 +32,11 @@ def print_all_stats(skip_uncalled=True):
             else:
                 argcounts.append(f"{name}={n_uses}")
 
-        argcounts = ", ".join(argcounts)
-        print(f"{func.__module__}.{func.__name__}[{counts}]({argcounts})")
+        argcounts_str = ", ".join(argcounts)
+        print(f"{func.__module__}.{func.__name__}[{counts}]({argcounts_str})")  # noqa: T201
 
 
-def stats_deco(*args, **kwargs):
+def stats_deco(*args, **kwargs):  # type: ignore[no-untyped-def]
     """
     Decorate for statistic gathering.  There should be auto mode!
 
@@ -83,7 +86,7 @@ def stats_deco(*args, **kwargs):
         * The number of times the corresponding parameter was used (or None)
     """
 
-    def deco(func):
+    def deco(func):  # type: ignore[no-untyped-def]
         new_func = stats_wrapper(func, *args, **kwargs)
         functools.update_wrapper(new_func, func)
         _wrapped.append(new_func)
@@ -94,7 +97,7 @@ def stats_deco(*args, **kwargs):
     return deco
 
 
-def stats_deco_auto(func, /, *, track_positional_use=False):
+def stats_deco_auto(func, /, *, track_positional_use: bool = False):  # type: ignore[no-untyped-def]
     """Similar to `stats_deco`, but attempts to use inspect to add
     any arguments and keyword arguments automatically.
 
@@ -116,8 +119,8 @@ def stats_deco_auto(func, /, *, track_positional_use=False):
     except ValueError:
         return func
 
-    args = []
-    kwargs = {}
+    args: list[tuple[str, ...] | None] = []
+    kwargs: dict[str, tuple[str, ...] | None] = {}
     positional_kws = 0
     for param in s.parameters.values():
         # Tracked the default parameter initially, but that doesn't really
@@ -153,7 +156,9 @@ def stats_deco_auto(func, /, *, track_positional_use=False):
     return new
 
 
-def install_in_module_by_name(name, /, *, track_positional_use=False):
+def install_in_module_by_name(
+    name: str, /, *, track_positional_use: bool = False
+) -> None:
     """
     Quick way to wrap module functions via
     `install_in_module_by_name(__name__)`.

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from telemetric.ga4.analytics import AnalyticsClient
 from telemetric.statswrapper import _wrapped
@@ -26,8 +26,8 @@ class StatsUploader:
         """
         self.analytics = AnalyticsClient(proxy_url)
 
-    def upload_function_stats(
-        self, wrapped_func, package_name: Optional[str] = None
+    def upload_function_stats(  # type: ignore[no-untyped-def]
+        self, wrapped_func, package_name: str | None = None
     ) -> bool:
         """
         Upload statistics for a single wrapped function to GA4.
@@ -98,8 +98,8 @@ class StatsUploader:
         return True
 
     def upload_all_stats(
-        self, package_name: Optional[str] = None, skip_uncalled: bool = True
-    ) -> Dict[str, Any]:
+        self, package_name: str | None = None, skip_uncalled: bool = True
+    ) -> dict[str, Any]:
         """
         Upload statistics for all wrapped functions to GA4.
 
@@ -152,7 +152,7 @@ class StatsUploader:
             "status": "completed",
         }
 
-    def upload_custom_stats(self, event_name: str, stats_data: Dict[str, Any]) -> bool:
+    def upload_custom_stats(self, event_name: str, stats_data: dict[str, Any]) -> bool:
         """
         Upload custom statistics data to GA4.
 

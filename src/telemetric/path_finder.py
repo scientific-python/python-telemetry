@@ -12,7 +12,7 @@ __all__ = ["install"]
 
 
 class TelemetryMetaFinder(MetaPathFinder):
-    def __init__(self, module_names, *args, **kwargs):
+    def __init__(self, module_names: list[str], *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
         """MetaPathFinder implementation that overrides a spec loader
         of type SourceFileLoader with a TelemetrySpanLoader.
 
@@ -22,7 +22,7 @@ class TelemetryMetaFinder(MetaPathFinder):
         self._module_names = module_names
         super().__init__(*args, **kwargs)
 
-    def find_spec(self, fullname, path, target=None):
+    def find_spec(self, fullname: str, path, target=None):  # type: ignore[no-untyped-def]
         if any(name in fullname for name in self._module_names):
             for finder in sys.meta_path:
                 if finder != self:
@@ -32,7 +32,7 @@ class TelemetryMetaFinder(MetaPathFinder):
                             return spec_from_loader(
                                 name=spec.name,
                                 loader=TelemetrySpanSourceFileLoader(
-                                    spec.name, spec.origin
+                                    spec.name, spec.origin or ""
                                 ),
                                 origin=spec.origin,
                             )
@@ -42,7 +42,7 @@ class TelemetryMetaFinder(MetaPathFinder):
 
 
 class TelemetrySpanSourceFileLoader(SourceFileLoader):
-    def exec_module(self, module):
+    def exec_module(self, module) -> None:  # type: ignore[no-untyped-def]
         super().exec_module(module)
         functions = inspect.getmembers(module, predicate=inspect.isfunction)
         classes = inspect.getmembers(module, predicate=inspect.isclass)
@@ -62,6 +62,6 @@ class TelemetrySpanSourceFileLoader(SourceFileLoader):
                     setattr(_class, name, stats_deco_auto(method))
 
 
-def install(module_names: list[str]):
+def install(module_names: list[str]) -> None:
     """Inserts the finder into the import machinery"""
     sys.meta_path.insert(0, TelemetryMetaFinder(module_names))

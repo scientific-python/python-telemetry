@@ -6,10 +6,10 @@ from __future__ import annotations
 
 import os
 
-import requests
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+import requests  # type: ignore[import-untyped]
+from fastapi import FastAPI, Request  # type: ignore[import-not-found]
+from fastapi.middleware.cors import CORSMiddleware  # type: ignore[import-not-found]
+from fastapi.responses import JSONResponse  # type: ignore[import-not-found]
 
 app = FastAPI()
 
@@ -28,7 +28,7 @@ GA4_API_SECRET = os.environ.get("GA4_API_SECRET")
 
 
 @app.get("/debug")
-async def debug():
+async def debug():  # type: ignore[no-untyped-def]
     """Debug endpoint to check if env vars are loaded"""
     return {
         "GA4_MEASUREMENT_ID_set": bool(GA4_MEASUREMENT_ID),
@@ -40,13 +40,13 @@ async def debug():
 
 
 @app.get("/")
-async def root():
+async def root():  # type: ignore[no-untyped-def]
     """Health check endpoint"""
     return {"status": "ok", "service": "GA4 Analytics Proxy"}
 
 
-@app.post("/track")
-async def track_event(request: Request):
+@app.post("/track")  # type: ignore[misc]
+async def track_event(request: Request):  # type: ignore[no-untyped-def]
     """
     Proxy endpoint that forwards events to GA4
 
@@ -104,7 +104,7 @@ async def track_event(request: Request):
 
 
 if __name__ == "__main__":
-    import uvicorn
+    import uvicorn  # type: ignore[import-not-found]
 
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", "8000"))
     uvicorn.run(app, host="0.0.0.0", port=port)

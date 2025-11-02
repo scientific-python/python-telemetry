@@ -6,7 +6,7 @@ from setuptools.command.build_ext import build_ext
 
 
 class CustomBuildHook(BuildHookInterface):
-    def initialize(self, version, build_data):
+    def initialize(self, version, build_data):  # noqa: ARG002
         build_data["ext_modules"] = [
             Extension(
                 "telemetric._stats_wrapper",

@@ -34,42 +34,42 @@ another_func(15, True)
 
 
 # Print current statistics
-print("=== Current Statistics ===")
-print("test_func counts:", test_func._get_counts())
-print("test_func param stats:", test_func._get_param_stats())
-print()
-print("another_func counts:", another_func._get_counts())
-print("another_func param stats:", another_func._get_param_stats())
-print()
+print("=== Current Statistics ===")  # noqa: T201
+print("test_func counts:", test_func._get_counts())  # noqa: T201
+print("test_func param stats:", test_func._get_param_stats())  # noqa: T201
+print()  # noqa: T201
+print("another_func counts:", another_func._get_counts())  # noqa: T201
+print("another_func param stats:", another_func._get_param_stats())  # noqa: T201
+print()  # noqa: T201
 
 
 # Test the stats uploader (this will try to upload to GA4)
-print("=== Testing Stats Uploader ===")
+print("=== Testing Stats Uploader ===")  # noqa: T201
 
 # Use a dummy proxy URL for testing (won't actually send data unless configured)
 uploader = StatsUploader(
     proxy_url="https://analytics-proxy-production-665e.up.railway.app"
 )
 
-print("Analytics client enabled:", uploader.analytics.enabled)
+print("Analytics client enabled:", uploader.analytics.enabled)  # noqa: T201
 
 # Test uploading individual function stats
-print("Uploading test_func stats...")
+print("Uploading test_func stats...")  # noqa: T201
 result1 = uploader.upload_function_stats(test_func, package_name="test_package")
-print("Upload result:", result1)
+print("Upload result:", result1)  # noqa: T201
 
-print("Uploading another_func stats...")
+print("Uploading another_func stats...")  # noqa: T201
 result2 = uploader.upload_function_stats(another_func, package_name="test_package")
-print("Upload result:", result2)
+print("Upload result:", result2)  # noqa: T201
 
 # Test uploading all stats
-print("\nUploading all stats...")
+print("\nUploading all stats...")  # noqa: T201
 summary = uploader.upload_all_stats(package_name="test_package")
-print("Upload summary:", summary)
+print("Upload summary:", summary)  # noqa: T201
 
 # Test custom stats upload
-print("\nUploading custom stats...")
+print("\nUploading custom stats...")  # noqa: T201
 custom_result = uploader.upload_custom_stats(
     "custom_metric", {"metric_name": "test_metric", "value": 42, "category": "testing"}
 )
-print("Custom upload result:", custom_result)
+print("Custom upload result:", custom_result)  # noqa: T201

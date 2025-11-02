@@ -8,19 +8,19 @@ from telemetric.span import span
 
 @span
 def foo(hello="world", delay=1):
-    print(hello)
+    print(hello)  # noqa: T201
     sleep(delay)
 
 
 @span
 def bar(spam="eggs", delay=1):
-    print(spam)
+    print(spam)  # noqa: T201
     sleep(delay)
 
 
 @span
 def baz(apple="orange", delay=1):
-    print(apple)
+    print(apple)  # noqa: T201
     sleep(delay)
 
 

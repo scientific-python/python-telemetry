@@ -21,9 +21,9 @@ stats.chatterjeexi([1, 2, 3, 4], [1.1, 2.2, 3.3, 4.4])
 # test()
 
 # How many calls (errors, and how often something was odd with the args)
-print("counts: ", stats.norm.pdf._get_counts())
+print("counts: ", stats.norm.pdf._get_counts())  # noqa: T201
 
 # Detailed statistics for each parameter.  How often was it passed
 # and how often were "a" and 3 passed (or something equal to them,
 # I do not consider types right now, although one could)?
-print("param stats: ", stats.norm.pdf._get_param_stats())
+print("param stats: ", stats.norm.pdf._get_param_stats())  # noqa: T201
