@@ -54,7 +54,11 @@ docs = [
   "sphinx_autodoc_typehints",
   "furo>=2023.08.17",
 ]
-requirements = { file = "requirements.txt" }
+span = [
+  "opentelemetry-api==1.25.0",
+  "opentelemetry-exporter-otlp-proto-grpc==1.25.0",
+  "opentelemetry-sdk==1.25.0",
+]
 
 
 [tool.setuptools_scm]
