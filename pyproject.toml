@@ -46,6 +46,7 @@ test = [
 ]
 dev = [
   { include-group = "test" },
+  { include-group = "span" },
 ]
 docs = [
   "sphinx>=7.0",
