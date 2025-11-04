@@ -60,6 +60,11 @@ span = [
   "opentelemetry-exporter-otlp-proto-grpc==1.25.0",
   "opentelemetry-sdk==1.25.0",
 ]
+proxy = [
+  "fastapi==0.104.1",
+  "requests==2.31.0",
+  "uvicorn[standard]==0.24.0",
+]
 
 
 [tool.setuptools_scm]
