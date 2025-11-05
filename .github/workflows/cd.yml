@@ -38,6 +38,11 @@ jobs:
       - name: build
         run: uv sync && uv build --sdist
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
   # release:
   #   needs: [dist]
   #   name: Create GitHub Release
