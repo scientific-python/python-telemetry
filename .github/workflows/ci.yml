@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
@@ -33,6 +34,7 @@ jobs:
       - uses: pre-commit/action@v3.0.1
         with:
           extra_args: --hook-stage manual --all-files
+
       - name: Run Pylint
         run: uvx nox -s pylint -- --output-format=github
 
