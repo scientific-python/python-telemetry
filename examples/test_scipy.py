@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from telemetric import install
+from telemetric.statswrapper import print_all_stats
 
 # from telemetric.console import setup_console
 
@@ -27,3 +28,5 @@ print("counts: ", stats.norm.pdf._get_counts())  # noqa: T201
 # and how often were "a" and 3 passed (or something equal to them,
 # I do not consider types right now, although one could)?
 print("param stats: ", stats.norm.pdf._get_param_stats())  # noqa: T201
+
+print_all_stats()

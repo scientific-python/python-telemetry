@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from telemetric.statswrapper import stats_deco
+from telemetric.statswrapper import print_all_stats, stats_deco
 
 
 @stats_deco(None, b=("a", 3), c=None)
@@ -18,3 +18,5 @@ print("counts: ", test_func._get_counts())  # noqa: T201
 # and how often were "a" and 3 passed (or something equal to them,
 # I do not consider types right now, although one could)?
 print("param stats: ", test_func._get_param_stats())  # noqa: T201
+
+print_all_stats()
