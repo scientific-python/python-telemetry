@@ -43,25 +43,25 @@ jobs:
           name: Packages
           path: dist
 
-  # release:
-  #   needs: [dist]
-  #   name: Create GitHub Release
-  #   runs-on: ubuntu-latest
-  #   if: startsWith(github.ref, 'refs/tags/v')
-  #   permissions:
-  #     contents: write
+  release:
+    needs: [dist]
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, 'rc')
+    permissions:
+      contents: write
 
-  #   steps:
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: Packages
-  #         path: dist
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
 
-  #     - name: Create Release
-  #       uses: softprops/action-gh-release@v2
-  #       with:
-  #         files: dist/*
-  #         generate_release_notes: true
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
 
   publish:
     needs: [dist]
@@ -81,5 +81,3 @@ jobs:
           path: dist
 
       - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
