@@ -201,12 +201,12 @@ class StatsUploader:
                 if f._get_counts()[0] > 0  # pylint: disable=protected-access
             ),
             "total_function_calls": sum(
-                f._get_counts()[0]
-                for f in _wrapped  # pylint: disable=protected-access
+                f._get_counts()[0]  # pylint: disable=protected-access
+                for f in _wrapped
             ),
             "total_errors": sum(
-                f._get_counts()[1]
-                for f in _wrapped  # pylint: disable=protected-access
+                f._get_counts()[1]  # pylint: disable=protected-access
+                for f in _wrapped
             ),
         }
 
