@@ -5,8 +5,8 @@
 
 <div align="left">
      <picture>
-          <source media="(prefers-color-scheme: dark)" srcset=".github/images/logo_dark.png" width=100>
-          <source media="(prefers-color-scheme: light)" srcset=".github/images/logo.png" width=100>
+          <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/lTSgUcA.png" width=100>
+          <source media="(prefers-color-scheme: light)" srcset="https://i.imgur.com/tPK9g5Y.png" width=100>
           <img alt="Telemetric" src=".github/images/logo.png">
      </picture>
 </div>
