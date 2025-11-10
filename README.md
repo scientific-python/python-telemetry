@@ -3,6 +3,14 @@
 [![Actions Status][actions-badge]][actions-link]
 [![PyPI version][pypi-version]][pypi-link]
 
+<div align="left">
+     <picture>
+          <source media="(prefers-color-scheme: dark)" srcset=".github/images/logo_dark.png" width=100>
+          <source media="(prefers-color-scheme: light)" srcset=".github/images/logo.png" width=100>
+          <img alt="Telemetric" src=".github/images/logo.png">
+     </picture>
+</div>
+
 <!-- SPHINX-START -->
 
 <!-- prettier-ignore-start -->
@@ -173,4 +181,4 @@ docker run --name jaeger \
   jaegertracing/all-in-one:1.35
 ```
 
-Access the Jaeger UI at http://localhost:16686
+Access the Jaeger UI at <http://localhost:16686>
